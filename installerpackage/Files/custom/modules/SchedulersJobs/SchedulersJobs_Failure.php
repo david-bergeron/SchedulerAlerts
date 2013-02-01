@@ -21,7 +21,7 @@ class SchedulersJobs_Failure
 		$settings = new SchedulerAlertsSettings($statuses, $users, $teams, $roles);
 		
 		if ($settings->status->value == "Inactive") {
-			$GLOBALS['log']->debug("The SchedulerAlerts module is disabled");
+			$GLOBALS['log']->debug("The SchedulerAlerts module is disabled.");
 			echo "Inactive";
 			exit;
 		}
@@ -41,7 +41,7 @@ class SchedulersJobs_Failure
 		$emails      = array_unique($emails);
 		
 		if (count($emails) == 0) {
-			$GLOBALS['log']->debug("There are No Emails set up for the SchedulerAlerts module");
+			$GLOBALS['log']->debug("There are No Emails set up for the SchedulerAlerts module.");
 			echo "no emails";
 			exit;
 		}
