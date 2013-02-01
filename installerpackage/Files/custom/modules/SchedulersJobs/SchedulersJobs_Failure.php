@@ -21,7 +21,7 @@ class SchedulersJobs_Failure
 		$settings = new SchedulerAlertsSettings($statuses, $users, $teams, $roles);
 		
 		if ($settings->status->value == "Inactive") {
-			$GLOBALS['log']->debug("The SchedulerAlerts module is disabled.");
+			$GLOBALS['log']->debug("The SchedulerAlerts module is disabled");
 			echo "Inactive";
 			exit;
 		}
