@@ -501,4 +501,14 @@ $installdefs = array (
       'to_module' => 'sched_SchedulerAlerts',
     ),
   ),
+  'logic_hooks' =>
+  array(
+  	'module' => 'sched_SchedulerAlerts',
+  	'hook' => '',
+  	'order' => 99,
+  	'description' => 'job failure',
+  	'file' => 'modules/sched_SchedulerAlerts/Hooks/SchedulersJobs_Failure.php',
+  	'class' => 'SchedulersJobs_Failure',
+  	'function' => 'Failure',
+  ),
 );

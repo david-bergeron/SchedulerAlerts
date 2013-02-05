@@ -67,4 +67,9 @@ $mod_strings = array (
   'LBL_USER_NAME' => 'User Name',
   'LBL_TEAM_NAME' => 'Team Name',
   'LBL_SCHEDULERS_ID' => 'Schedulers Id',
+  'LBL_MODULE_DISABLED' => 'The SchedulerAlerts module is disabled.',
+  'LBL_FAILED_TO_COMPLETE' => ' has failed to complete.',
+  'LBL_FAILURE' => 'failure',
+  'LBL_NEEDS_ATTENTION' => ' has failed to complete and requires immediate attention.',
+  'LBL_EMAIL_ERROR' => 'Error sending e-mail: ',
 );
