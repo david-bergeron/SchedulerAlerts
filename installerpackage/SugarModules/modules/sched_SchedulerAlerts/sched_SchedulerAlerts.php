@@ -81,17 +81,16 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 		$roleNameStr = implode(", ", array_values($roleNames));
 		$userNameStr = implode(", ", array_values($userNames));
 		
-		$schedAlerts                   = BeanFactory::getBean($module);
-		$schedAlerts->name             = $bean->name;
-		$schedAlerts->assigned_user_id = $bean->assigned_user_id;
-		$schedAlerts->description      = $bean->name.' '.translate("LBL_FAILED_TO_COMPLETE", $module);
-		$schedAlerts->scheduler_status = $bean->status;
-		$schedAlerts->scheduler_resolution = translate("LBL_FAILURE", $module);
-		$schedAlerts->team_name        = $teamNameStr;
-		$schedAlerts->role_name        = $roleNameStr;
-		$schedAlerts->user_name        = $userNameStr;
-		$schedAlerts->schedulers_id    = $bean->scheduler_id;
-		$schedAlerts->save();
+		$this->name             = $bean->name;
+		$this->assigned_user_id = $bean->assigned_user_id;
+		$this->description      = $bean->name.' '.translate("LBL_FAILED_TO_COMPLETE", $module);
+		$this->scheduler_status = $bean->status;
+		$this->scheduler_resolution = translate("LBL_FAILURE", $module);
+		$this->team_name        = $teamNameStr;
+		$this->role_name        = $roleNameStr;
+		$this->user_name        = $userNameStr;
+		$this->schedulers_id    = $bean->scheduler_id;
+		$this->save();
 		
 		$mailer = new SugarPHPMailer();
 		$emails = array('david.bergeron2@gmail.com' => 'David');
