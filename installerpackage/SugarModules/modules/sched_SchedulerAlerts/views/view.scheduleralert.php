@@ -75,6 +75,17 @@ class ViewSchedulerAlert extends SugarView {
 				$settings->status->value = $_POST['status'];
 			}
 			$settings->save();
+			
+			if (!headers_sent) {
+				header('Location: index.php?module=Administration&action=index');
+			} else {
+				echo '<script type="text/javascript">';
+				echo 'window.location.href="index.php?module=Administration&action=index";';
+				echo '</script>';
+				echo '<noscript>';
+				echo '<meta http-equiv="refresh" content="0;url='.$filename.'" />';
+				echo '</noscript>';
+			}
 		}
 
 		// set up the status flag

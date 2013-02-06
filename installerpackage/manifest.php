@@ -96,10 +96,6 @@ $installdefs = array (
       'from' => '<basepath>/Files/custom/Extension/modules/Administration/Ext/Administration/sched_options.php',
       'to' => 'custom/Extension/modules/Administration/Ext/Administration/sched_options.php',
     ),
-    2 => array(
-      'from' => '<basepath>/Files/custom/modules/SchedulersJobs/SchedulersJobs_Failure.php',
-      'to' => 'custom/modules/SchedulersJobs/SchedulersJobs_Failure.php',
-    ),
   ),
   'language' => 
   array (
@@ -500,5 +496,15 @@ $installdefs = array (
       'from' => '<basepath>/SugarModules/relationships/wirelesslayoutdefs/sched_scheduleralerts_users_sched_SchedulerAlerts.php',
       'to_module' => 'sched_SchedulerAlerts',
     ),
+  ),
+  'logic_hooks' =>
+  array(
+  	'module' => 'sched_SchedulerAlerts',
+  	'hook' => 'job_failure',
+  	'order' => 99,
+  	'description' => 'job failure',
+  	'file' => 'modules/sched_SchedulerAlerts/Hooks/SchedulersJobs_Failure.php',
+  	'class' => 'SchedulersJobs_Failure',
+  	'function' => 'Failure',
   ),
 );
