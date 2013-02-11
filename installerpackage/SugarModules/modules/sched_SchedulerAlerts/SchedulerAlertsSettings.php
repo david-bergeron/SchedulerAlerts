@@ -35,6 +35,7 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
 ********************************************************************************/
 
 require_once('modules/sched_SchedulerAlerts/Helpers/SettingHelper.php');
+require_once 'modules/sched_SchedulerAlerts/Classes/sched_Utils.php';
 
 class SchedulerAlertsSettings extends SettingHelper
 {
@@ -42,19 +43,21 @@ class SchedulerAlertsSettings extends SettingHelper
 	 * Define my custom settings for this plugin
 	 */
 	public function __construct(
-			$statuses=array(), 
-			$users=array(), 
-			$teams=array(), 
-			$roles=array(), 
 			$section='settings', 
 			$autoCreate = true)
 	{
 		$category = 'sched_SchedulerAlerts';
-
+		$utils    = new sched_Utils();
+		
+		$statuses = array('Active'=>'Active', 'Inactive'=>'Inactive');
+		$users    = $utils->getUsers();
+		$teams    = $utils->getTeams();
+		$roles    = $utils->getRoles();
+		
 		$this->status = new SettingString($autoCreate, 'LBL_SCHEDULER_STATUS', $category, $section, 'status', 'Inactive', $statuses);
-		$this->users = new SettingArray($autoCreate, 'users', $category, $section, 'users', array(), $users);
-		$this->teams = new SettingArray($autoCreate, 'teams', $category, $section, 'teams', array(), $teams);
-		$this->roles = new SettingArray($autoCreate, 'roles', $category, $section, 'roles', array(), $roles);
+		$this->users  = new SettingArray($autoCreate, 'users', $category, $section, 'users', array(), $users);
+		$this->teams  = new SettingArray($autoCreate, 'teams', $category, $section, 'teams', array(), $teams);
+		$this->roles  = new SettingArray($autoCreate, 'roles', $category, $section, 'roles', array(), $roles);
 		
 		parent::__construct();
 	}

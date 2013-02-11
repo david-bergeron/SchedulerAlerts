@@ -46,16 +46,11 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 		$module   = 'sched_SchedulerAlerts';
 		$utils    = new sched_Utils();
 		
-		$statuses = array('Active'=>'Active', 'Inactive'=>'Inactive');
-		$users    = $utils->getUsers();
-		$teams    = $utils->getTeams();
-		$roles    = $utils->getRoles();
-		
-		$settings = new SchedulerAlertsSettings($statuses, $users, $teams, $roles);
+		$settings = new SchedulerAlertsSettings();
 		
 		if ($settings->status->value == "Inactive") {
 			$GLOBALS['log']->debug("LBL_MODULE_DISABLED", $module);
-			exit;
+			return;
 		}
 		
 		$userNames = array();
@@ -64,9 +59,9 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 		$emails    = array();
 		
 		// get the users emails and names
-		$utils->getEmailsAndNames($settings->users->value, 'Users', &$userNames, &$emails);
-		$utils->getEmailsAndNames($settings->teams->value, 'Teams', &$teamNames, &$emails);
-		$utils->getEmailsAndNames($settings->roles->value, 'Roles', &$roleNames, &$emails);
+		$utils->getEmailsAndNames($settings->users->value, 'Users', $userNames, $emails);
+		$utils->getEmailsAndNames($settings->teams->value, 'Teams', $teamNames, $emails);
+		$utils->getEmailsAndNames($settings->roles->value, 'Roles', $roleNames, $emails);
 		
 		$teamNames   = array_unique($teamNames);
 		$roleNames   = array_unique($roleNames);
@@ -74,7 +69,7 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 		
 		if (count($emails) == 0) {
 			$GLOBALS['log']->debug("LBL_NO_EMAILS", $module);
-			exit;
+			return;
 		}
 		
 		$teamNameStr = implode(", ", array_values($teamNames));
@@ -113,7 +108,7 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 		$mailer->FromName = $admin->settings['notify_fromname'];
 		
 		if (!$mailer->Send()) {
-			$GLOBALS['log']->fatal(translate("LBL_EMAIL_ERROR", $module) . $mail->ErrorInfo);
+			$GLOBALS['log']->fatal(translate("LBL_EMAIL_ERROR", $module) . $mailer->ErrorInfo);
 		}
 	}
 	
