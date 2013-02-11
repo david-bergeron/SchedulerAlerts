@@ -93,8 +93,7 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 		$schedAlerts->schedulers_id    = $bean->scheduler_id;
 		$schedAlerts->save();
 		
-		$mailer = new SugarPHPMailer();
-		$emails = array('david.bergeron2@gmail.com' => 'David');
+		$mailer           = new SugarPHPMailer();
 		foreach ($emails as $address => $name) {
 			$mailer->AddAddress($address, $name);
 		}
