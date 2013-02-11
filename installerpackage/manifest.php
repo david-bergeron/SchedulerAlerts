@@ -498,14 +498,14 @@ $installdefs = array (
     ),
   ),
   'logic_hooks' => array(
-	  array(
-	  	'module' => 'sched_SchedulerAlerts',
-	  	'hook' => 'job_failure',
-	  	'order' => 99,
-	  	'description' => 'job failure',
-	  	'file' => 'modules/sched_SchedulerAlerts/Hooks/SchedulersJobs_Failure.php',
-	  	'class' => 'SchedulersJobs_Failure',
-	  	'function' => 'Failure',
-	  ),
-  	),
+  array(
+    'module' => 'SchedulersJobs',
+    'hook' => 'job_failure',
+    'order' => 99,
+    'description' => 'job failure',
+    'file' => 'modules/sched_SchedulerAlerts/Hooks/SchedulersJobs_Failure.php',
+    'class' => 'SchedulersJobs_Failure',
+    'function' => 'Failure',
+   ),
+  ),
 );
