@@ -46,16 +46,11 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 		$module   = 'sched_SchedulerAlerts';
 		$utils    = new sched_Utils();
 		
-		$statuses = array('Active'=>'Active', 'Inactive'=>'Inactive');
-		$users    = $utils->getUsers();
-		$teams    = $utils->getTeams();
-		$roles    = $utils->getRoles();
-		
-		$settings = new SchedulerAlertsSettings($statuses, $users, $teams, $roles);
+		$settings = new SchedulerAlertsSettings();
 		
 		if ($settings->status->value == "Inactive") {
 			$GLOBALS['log']->debug("LBL_MODULE_DISABLED", $module);
-			exit;
+			return;
 		}
 		
 		$userNames = array();
@@ -64,9 +59,9 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 		$emails    = array();
 		
 		// get the users emails and names
-		$utils->getEmailsAndNames($settings->users->value, 'Users', &$userNames, &$emails);
-		$utils->getEmailsAndNames($settings->teams->value, 'Teams', &$teamNames, &$emails);
-		$utils->getEmailsAndNames($settings->roles->value, 'Roles', &$roleNames, &$emails);
+		$utils->getEmailsAndNames($settings->users->value, 'Users', $userNames, $emails);
+		$utils->getEmailsAndNames($settings->teams->value, 'Teams', $teamNames, $emails);
+		$utils->getEmailsAndNames($settings->roles->value, 'Roles', $roleNames, $emails);
 		
 		$teamNames   = array_unique($teamNames);
 		$roleNames   = array_unique($roleNames);
@@ -74,24 +69,23 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 		
 		if (count($emails) == 0) {
 			$GLOBALS['log']->debug("LBL_NO_EMAILS", $module);
-			exit;
+			return;
 		}
 		
 		$teamNameStr = implode(", ", array_values($teamNames));
 		$roleNameStr = implode(", ", array_values($roleNames));
 		$userNameStr = implode(", ", array_values($userNames));
 		
-		$schedAlerts                   = BeanFactory::getBean($module);
-		$schedAlerts->name             = $bean->name;
-		$schedAlerts->assigned_user_id = $bean->assigned_user_id;
-		$schedAlerts->description      = $bean->name.' '.translate("LBL_FAILED_TO_COMPLETE", $module);
-		$schedAlerts->scheduler_status = $bean->status;
-		$schedAlerts->scheduler_resolution = translate("LBL_FAILURE", $module);
-		$schedAlerts->team_name        = $teamNameStr;
-		$schedAlerts->role_name        = $roleNameStr;
-		$schedAlerts->user_name        = $userNameStr;
-		$schedAlerts->schedulers_id    = $bean->scheduler_id;
-		$schedAlerts->save();
+		$this->name             = $bean->name;
+		$this->assigned_user_id = $bean->assigned_user_id;
+		$this->description      = $bean->name.' '.translate("LBL_FAILED_TO_COMPLETE", $module);
+		$this->scheduler_status = $bean->status;
+		$this->scheduler_resolution = translate("LBL_FAILURE", $module);
+		$this->team_name        = $teamNameStr;
+		$this->role_name        = $roleNameStr;
+		$this->user_name        = $userNameStr;
+		$this->schedulers_id    = $bean->scheduler_id;
+		$this->save();
 		
 		$mailer           = new SugarPHPMailer();
 		foreach ($emails as $address => $name) {
@@ -113,7 +107,7 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 		$mailer->FromName = $admin->settings['notify_fromname'];
 		
 		if (!$mailer->Send()) {
-			$GLOBALS['log']->fatal(translate("LBL_EMAIL_ERROR", $module) . $mail->ErrorInfo);
+			$GLOBALS['log']->fatal(translate("LBL_EMAIL_ERROR", $module) . $mailer->ErrorInfo);
 		}
 	}
 	

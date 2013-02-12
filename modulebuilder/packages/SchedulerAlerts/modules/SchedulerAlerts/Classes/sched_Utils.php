@@ -94,7 +94,7 @@ class sched_Utils
 		return $return;
 	}
 	
-	public function getEmailsAndNames($array, $module, $names, $emails) {
+	public function getEmailsAndNames($array, $module, &$names, &$emails) {
 		global $utils;
 		
 		foreach ($array as $id) {
