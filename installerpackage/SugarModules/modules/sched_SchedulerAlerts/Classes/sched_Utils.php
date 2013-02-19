@@ -40,7 +40,7 @@ class sched_Utils
 		// get the Users data
 		$usersObj  = BeanFactory::newBean('Users');
 		$orderBy   = "last_name";
-		$where     = "users.status = 'Active' AND users.is_admin=0";
+		$where     = "users.status = 'Active'";
 		$users     = $usersObj->get_list($orderBy, $where);
 	
 		$return = array();
@@ -58,8 +58,7 @@ class sched_Utils
 		// get the Teams data
 		$teamsObj  = BeanFactory::newBean('Teams');
 		$groupBy   = "name";
-		$where     = "associated_user_id != 1 OR associated_user_id IS NULL";
-		$teams     = $teamsObj->get_list($groupBy, $where);
+		$teams     = $teamsObj->get_list($groupBy);
 	
 		$return = array();
 		foreach ($teams['list'] as $team) {
