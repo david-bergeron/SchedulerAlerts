@@ -50,9 +50,9 @@ $manifest = array (
   'icon' => '',
   'is_uninstallable' => true,
   'name' => 'SchedulerAlerts',
-  'published_date' => '2013-01-28 21:40:26',
+  'published_date' => '2013-02-19 22:06:03',
   'type' => 'module',
-  'version' => 1359409227,
+  'version' => 1361311563,
   'remove_tables' => 'prompt',
 );
 

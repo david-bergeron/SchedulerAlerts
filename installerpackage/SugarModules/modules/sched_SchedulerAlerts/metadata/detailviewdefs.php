@@ -52,13 +52,28 @@ array (
         ),
         1 => 
         array (
+          0 => 
+          array (
+            'name' => 'schedulers_id',
+            'label' => 'LBL_SCHEDULERS_ID',
+          ),
+          1 => 
+          array (
+            'name' => 'user_names',
+            'label' => 'LBL_USER_NAMES',
+          ),
         ),
         2 => 
         array (
           0 => 
           array (
-            'name' => 'role_name',
-            'label' => 'LBL_ROLE_NAME',
+            'name' => 'team_names',
+            'label' => 'LBL_TEAM_NAMES',
+          ),
+          1 => 
+          array (
+            'name' => 'role_names',
+            'label' => 'LBL_ROLE_NAMES',
           ),
         ),
         3 => 

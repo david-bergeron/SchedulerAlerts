@@ -1,5 +1,5 @@
 <?php
- // created: 2013-01-28 14:40:28
+ // created: 2013-02-19 15:06:04
 $layout_defs["sched_SchedulerAlerts"]["subpanel_setup"]['sched_scheduleralerts_users'] = array (
   'order' => 100,
   'module' => 'Users',

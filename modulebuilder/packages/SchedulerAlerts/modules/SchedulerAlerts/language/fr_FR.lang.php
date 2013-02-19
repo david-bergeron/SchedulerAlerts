@@ -67,4 +67,7 @@ $mod_strings = array (
   'LBL_USER_NAME' => 'User Name',
   'LBL_TEAM_NAME' => 'Team Name',
   'LBL_SCHEDULERS_ID' => 'Schedulers Id',
+  'LBL_ROLE_NAMES' => 'Role Names',
+  'LBL_USER_NAMES' => 'User Names',
+  'LBL_TEAM_NAMES' => 'Team Names',
 );

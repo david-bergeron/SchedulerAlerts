@@ -1,5 +1,5 @@
 <?php
-// created: 2013-01-28 14:40:28
+// created: 2013-02-19 15:06:04
 $dictionary["sched_SchedulerAlerts"]["fields"]["sched_scheduleralerts_users"] = array (
   'name' => 'sched_scheduleralerts_users',
   'type' => 'link',

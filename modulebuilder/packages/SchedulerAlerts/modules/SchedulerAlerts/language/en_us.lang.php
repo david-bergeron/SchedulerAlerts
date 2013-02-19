@@ -72,4 +72,8 @@ $mod_strings = array (
   'LBL_FAILURE' => 'failure',
   'LBL_NEEDS_ATTENTION' => ' has failed to complete and requires immediate attention.',
   'LBL_EMAIL_ERROR' => 'Error sending e-mail: ',
+  'LBL_ROLE_NAMES' => 'Role Names',
+  'LBL_USER_NAMES' => 'User Names',
+  'LBL_TEAM_NAMES' => 'Team Names',
+  'LBL_MUST_BE_ADMIN' => 'Must be Admin',
 );

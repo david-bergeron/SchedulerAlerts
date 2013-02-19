@@ -17,17 +17,14 @@ array (
     'id' => 'ASSIGNED_USER_ID',
     'default' => true,
   ),
-  'user_name' => 
+  'date_entered' => 
   array (
-    'type' => 'varchar',
-    'label' => 'LBL_USER_NAME',
-    'width' => '10%',
-    'default' => true,
-  ),
-  'role_name' => 
-  array (
-    'type' => 'varchar',
-    'label' => 'LBL_ROLE_NAME',
+    'type' => 'datetime',
+    'studio' => 
+    array (
+      'portaleditview' => false,
+    ),
+    'label' => 'LBL_DATE_ENTERED',
     'width' => '10%',
     'default' => true,
   ),

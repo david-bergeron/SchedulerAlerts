@@ -57,11 +57,17 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 		$teamNames = array();
 		$roleNames = array();
 		$emails    = array();
+		$userIds   = array();
 		
 		// get the users emails and names
 		$utils->getEmailsAndNames($settings->users->value, 'Users', $userNames, $emails);
 		$utils->getEmailsAndNames($settings->teams->value, 'Teams', $teamNames, $emails);
 		$utils->getEmailsAndNames($settings->roles->value, 'Roles', $roleNames, $emails);
+		
+		$userIds[]   = array_keys($userNames);
+		$userIds[]   = array_keys($teamNames);
+		$userIds[]   = array_keys($roleNames);
+		$userIds     = array_unique($userIds);
 		
 		$teamNames   = array_unique($teamNames);
 		$roleNames   = array_unique($roleNames);
@@ -72,20 +78,24 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 			return;
 		}
 		
-		$teamNameStr = implode(", ", array_values($teamNames));
-		$roleNameStr = implode(", ", array_values($roleNames));
-		$userNameStr = implode(", ", array_values($userNames));
+		$teamNameStr = implode("<br >\n\r ", array_values($teamNames));
+		$roleNameStr = implode("<br >\n\r ", array_values($roleNames));
+		$userNameStr = implode("<br >\n\r ", array_values($userNames));
 		
 		$this->name             = $bean->name;
 		$this->assigned_user_id = $bean->assigned_user_id;
 		$this->description      = $bean->name.' '.translate("LBL_FAILED_TO_COMPLETE", $module);
 		$this->scheduler_status = $bean->status;
 		$this->scheduler_resolution = translate("LBL_FAILURE", $module);
-		$this->team_name        = $teamNameStr;
-		$this->role_name        = $roleNameStr;
-		$this->user_name        = $userNameStr;
+		$this->team_set_id      = $bean->team_set_id;
+		$this->team_names       = $teamNameStr;
+		$this->role_names       = $roleNameStr;
+		$this->user_names       = $userNameStr;
 		$this->schedulers_id    = $bean->scheduler_id;
 		$this->save();
+		
+		$this->load_relationship('sched_scheduleralerts_users');
+		$this->sched_scheduleralerts_users->add($userIds[0]);
 		
 		$mailer           = new SugarPHPMailer();
 		foreach ($emails as $address => $name) {

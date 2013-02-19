@@ -63,9 +63,10 @@ class sched_SchedulerAlerts_sugar extends Basic {
 		var $assigned_user_link;
 		var $scheduler_resolution;
 		var $scheduler_status;
-		var $role_name;
 		var $schedulers_id;
-		var $user_name;
+		var $role_names;
+		var $user_names;
+		var $team_names;
 			function sched_SchedulerAlerts_sugar(){	
 		parent::Basic();
 	}
