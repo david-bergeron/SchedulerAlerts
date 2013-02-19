@@ -57,8 +57,8 @@ class sched_Utils
 	public function getTeams() {
 		// get the Teams data
 		$teamsObj  = BeanFactory::newBean('Teams');
-		$groupBy   = "name";
-		$teams     = $teamsObj->get_list($groupBy);
+		$orderBy   = "name";
+		$teams     = $teamsObj->get_list($orderBy);
 	
 		$return = array();
 		foreach ($teams['list'] as $team) {
