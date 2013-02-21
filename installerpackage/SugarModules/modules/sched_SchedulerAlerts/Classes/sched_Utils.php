@@ -114,9 +114,9 @@ class sched_Utils
 				foreach ($bean as $user) {
 					if (strlen($user->email1) > 0) {
 						$emails[$user->email1] = $user->name;
-						if ($module == 'Teams') $names[] = $team->name;
-						elseif ($module == 'Roles') $names[] = $role->name;
-						else $names [] = $user->name;
+						if ($module == 'Teams') $names[$user->id] = $team->name;
+						elseif ($module == 'Roles') $names[$user->id] = $role->name;
+						else $names [$user->id] = $user->name;
 					} else {
 						continue;
 					}
@@ -124,7 +124,7 @@ class sched_Utils
 			} else {
 				if (strlen($bean->email1) > 0) {
 					$emails[$bean->email1] = $bean->name;
-					$names [] = $bean->name;
+					$names [$bean->id] = $bean->name;
 				} else {
 					continue;
 				}
