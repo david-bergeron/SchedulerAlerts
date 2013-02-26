@@ -88,12 +88,12 @@ $installdefs = array (
   'copy' => 
   array (
     0 => array (
-      'from' => '<basepath>/SugarModules/modules/sched_SchedulerAlerts',
-      'to' => 'modules/sched_SchedulerAlerts',
+      	'from' => '<basepath>/SugarModules/modules/sched_SchedulerAlerts',
+      	'to' => 'modules/sched_SchedulerAlerts',
     ),
     1 => array(
-      'from' => '<basepath>/Files/custom/Extension/modules/Administration/Ext/Administration/sched_options.php',
-      'to' => 'custom/Extension/modules/Administration/Ext/Administration/sched_options.php',
+      	'from' => '<basepath>/Files/custom/Extension/modules/Administration/Ext/Administration/sched_options.php',
+      	'to' => 'custom/Extension/modules/Administration/Ext/Administration/sched_options.php',
     ),
   	2 => array(
   		'from' => '<basepath>/Files/custom/Extension/modules/Schedulers/Ext/ScheduledTasks/force_job_failure.php',
