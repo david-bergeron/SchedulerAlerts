@@ -87,14 +87,21 @@ $installdefs = array (
   'image_dir' => '<basepath>/icons',
   'copy' => 
   array (
-    0 => 
-    array (
+    0 => array (
       'from' => '<basepath>/SugarModules/modules/sched_SchedulerAlerts',
       'to' => 'modules/sched_SchedulerAlerts',
     ),
     1 => array(
       'from' => '<basepath>/Files/custom/Extension/modules/Administration/Ext/Administration/sched_options.php',
       'to' => 'custom/Extension/modules/Administration/Ext/Administration/sched_options.php',
+    ),
+  	2 => array(
+  		'from' => '<basepath>/Files/custom/Extension/modules/Schedulers/Ext/ScheduledTasks/force_job_failure.php',
+  		'to' => 'custom/Extension/modules/Schedulers/Ext/ScheduledTasks/force_job_failure.php',
+  	),
+  	3 => array(
+  	    'from' => '<basepath>/Files/custom/Extension/modules/Schedulers/Ext/Language/en_us.force_job_failure.php',
+  		'to' => 'custom/Extension/modules/Schedulers/Ext/Language/en_us.force_job_failure.php',
     ),
   ),
   'language' => 
