@@ -68,7 +68,7 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 		$userIds[]   = array_keys($teamNames);
 		$userIds[]   = array_keys($roleNames);
 		$userIds     = array_unique($userIds);
-		
+
 		$teamNames   = array_unique($teamNames);
 		$roleNames   = array_unique($roleNames);
 		$emails      = array_unique($emails);
@@ -97,29 +97,54 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 		$this->load_relationship('sched_scheduleralerts_users');
 		$this->sched_scheduleralerts_users->add($userIds[0]);
 		
-		$mailer           = new SugarPHPMailer();
-		foreach ($emails as $address => $name) {
-			$mailer->AddAddress($address, $name);
+		$jobDate   = TimeDate::getInstance()->to_display_date_time($bean->execute_time);
+		
+		global $sugar_config;
+		$baseLink  = trim($sugar_config['site_url']);
+		$extLink   = "index.php?action=DetailView&module=Schedulers&record={$bean->scheduler_id}";
+		
+		$slash     = '';
+		if ($baseLink[strlen($baseLink)-1] != '/')
+		{
+			$slash = '/';
 		}
 		
-		$mailer->Subject  = $bean->name.' '.translate("LBL_FAILED_TO_COMPLETE", $module);
-		$mailer->Body     = '<b>'.$bean->name.' '.translate("LBL_NEEDS_ATTENTION", $module).'</b>';
-		$mailer->AltBody  = $bean->name.' '.translate("LBL_NEEDS_ATTENTION", $module);
-		
-		$mailer->prepForOutbound();
+		$schedulerLink = "{$baseLink}{$slash}{$extLink}";
 		
 		// set system default mailer
-		$admin            = new Administration();
+		$admin         = new Administration();
 		$admin->retrieveSettings();
-		$mailer->setMailerForSystem();
 		
-		$mailer->From     = $admin->settings['notify_fromaddress'];
-		$mailer->FromName = $admin->settings['notify_fromname'];
+		$descriptionHtml  =<<<MSG
+			Team,
+			<br /><br />
+			A SugarCRM scheduled job has failed.
+			<br />
+			Scheduler: {$bean->name}
+			<br />
+			Job Started: {$jobDate}
+			<br /><br />
+			Record: <a href="$schedulerLink">$schedulerLink</a>
+MSG;
+
+		foreach ($emails as $address => $name) {
+			$mailer           = new SugarPHPMailer();
+			$mailer->AddAddress($address, $name);
 		
-		if (!$mailer->Send()) {
-			$GLOBALS['log']->fatal(translate("LBL_EMAIL_ERROR", $module) . $mailer->ErrorInfo);
+			$mailer->Subject  = translate("SugarCRM Scheduler Failure Notice", $module);
+			$mailer->Body     = translate($descriptionHtml, $module);
+			$mailer->AltBody  = translate($descriptionHtml, $module);
+			
+			$mailer->prepForOutbound();
+			
+			$mailer->setMailerForSystem();
+			
+			$mailer->From     = $admin->settings['notify_fromaddress'];
+			$mailer->FromName = $admin->settings['notify_fromname'];
+			
+			if (!$mailer->Send()) {
+				$GLOBALS['log']->fatal(translate("LBL_EMAIL_ERROR", $module) . $mailer->ErrorInfo);
+			}
 		}
 	}
-	
 }
-?>
