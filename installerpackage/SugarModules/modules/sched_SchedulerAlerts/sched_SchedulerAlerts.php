@@ -114,23 +114,23 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 		// set system default mailer
 		$admin         = new Administration();
 		$admin->retrieveSettings();
-		
-		$descriptionHtml  =<<<MSG
-			Team,
-			<br /><br />
-			A SugarCRM scheduled job has failed.
-			<br />
-			Scheduler: {$bean->name}
-			<br />
-			Job Started: {$jobDate}
-			<br /><br />
-			Record: <a href="$schedulerLink">$schedulerLink</a>
-MSG;
 
 		foreach ($emails as $address => $name) {
 			$mailer           = new SugarPHPMailer();
 			$mailer->AddAddress($address, $name);
 		
+			$descriptionHtml  =<<<MSG
+				{$name},
+				<br /><br />
+				A SugarCRM scheduled job has failed.
+				<br />
+				Scheduler: {$bean->name}
+				<br />
+				Job Started: {$jobDate}
+				<br /><br />
+				Record: <a href="$schedulerLink">$schedulerLink</a>
+MSG;
+					
 			$mailer->Subject  = translate("SugarCRM Scheduler Failure Notice", $module);
 			$mailer->Body     = translate($descriptionHtml, $module);
 			$mailer->AltBody  = translate($descriptionHtml, $module);
