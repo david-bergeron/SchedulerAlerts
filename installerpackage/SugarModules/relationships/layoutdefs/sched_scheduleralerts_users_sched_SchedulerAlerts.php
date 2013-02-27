@@ -10,14 +10,5 @@ $layout_defs["sched_SchedulerAlerts"]["subpanel_setup"]['sched_scheduleralerts_u
   'get_subpanel_data' => 'sched_scheduleralerts_users',
   'top_buttons' => 
   array (
-    0 => 
-    array (
-      'widget_class' => 'SubPanelTopButtonQuickCreate',
-    ),
-    1 => 
-    array (
-      'widget_class' => 'SubPanelTopSelectButton',
-      'mode' => 'MultiSelect',
-    ),
   ),
 );
