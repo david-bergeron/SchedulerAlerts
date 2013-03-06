@@ -57,7 +57,7 @@ class SettingHelper
 		return $results;
 	}
 
-	public function saveFromRequest()
+	public function saveFromRequest($checkEmptySettings = array())
 	{
 		$properties = get_object_vars($this);
 
@@ -69,6 +69,14 @@ class SettingHelper
 				$this->{$property->getName()}->value = $_REQUEST[$property->getId()];
 				$results[$property->getName()] = $this->{$property->getName()}->save();
 			}
+            else if (in_array($property->getName(), $checkEmptySettings))
+            {
+                if (!isset($_REQUEST[$property->getId()]))
+                {
+                    $this->{$property->getName()}->setDefaultValue();
+                    $results[$property->getName()] = $this->{$property->getName()}->save();
+                }
+            }
 		}
 
 		return $results;
