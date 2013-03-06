@@ -53,11 +53,11 @@ class SchedulerAlertsSettings extends SettingHelper
 		$users    = $utils->getUsers();
 		$teams    = $utils->getTeams();
 		$roles    = $utils->getRoles();
-		
+
 		$this->status = new SettingString($autoCreate, 'LBL_SCHEDULER_STATUS', $category, $section, 'status', 'Inactive', $statuses);
-		$this->users  = new SettingArray($autoCreate, 'users', $category, $section, 'users', array(), $users);
-		$this->teams  = new SettingArray($autoCreate, 'teams', $category, $section, 'teams', array(), $teams);
-		$this->roles  = new SettingArray($autoCreate, 'roles', $category, $section, 'roles', array(), $roles);
+		$this->users  = new SettingArray($autoCreate, 'Users', $category, $section, 'users', array(), $users);
+		$this->teams  = new SettingArray($autoCreate, 'Teams', $category, $section, 'teams', array(), $teams);
+		$this->roles  = new SettingArray($autoCreate, 'Roles', $category, $section, 'roles', array(), $roles);
 		
 		parent::__construct();
 	}

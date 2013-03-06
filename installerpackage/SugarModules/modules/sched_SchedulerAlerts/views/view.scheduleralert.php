@@ -62,19 +62,14 @@ class ViewSchedulerAlert extends SugarView {
 		
 		// save the current settings
 		if (isset($_POST['button']) && $_POST['button'] == 'Save') {
-			if (isset($_POST['alertUser'])) {
-				$settings->users->value = $_POST['alertUser'];
-			}
-			if (isset($_POST['alertTeam'])) {
-				$settings->teams->value = $_POST['alertTeam'];
-			}
-			if (isset($_POST['alertRole'])) {
-				$settings->roles->value = $_POST['alertRole'];
-			}
-			if (isset($_POST['status'])) {
-				$settings->status->value = $_POST['status'];
-			}
-			$settings->save();
+
+            $checkEmpty = array(
+                'users',
+                'teams',
+                'roles'
+            );
+
+			$settings->saveFromRequest($checkEmpty);
 			
 			if (!headers_sent()) {
 				header('Location: index.php?module=Administration&action=index');
@@ -88,70 +83,41 @@ class ViewSchedulerAlert extends SugarView {
 			}
 		}
 
-		// set up the status flag
-		$statusOpts  = '<select name="status">';
-		$statusOpts .= $utils->createOptions($statuses, $settings, 'status');
-		$statusOpts .= '</select>';
-		
-		// Setup the Users data
-		$userOpts  = '<select id="alertUser" name="alertUser[]" multiple="true" size="10" style="width: 200px;">';
-		$userOpts .= $utils->createOptions($users, $settings, 'users');
-		$userOpts .= '</select>';
-		
-		// Setup the Teams data
-		$teamOpts  = '<select id="alertTeam" name="alertTeam[]" multiple="true" size="10" style="width: 200px;">';
-		$teamOpts .= $utils->createOptions($teams, $settings, 'teams');
-		$teamOpts .= '</select>';
-		
-		// Setup the Roles data
-		$roleOpts  = '<select id="alertRole" name="alertRole[]" multiple="true" size="10" style="width: 250px;">';
-		$roleOpts .= $utils->createOptions($roles, $settings, 'roles');
-		$roleOpts .= '</select>';
-		
-		$statLabel = translate('Status: ');
-		$teamLabel = translate('Teams: ');
-		$userLabel = translate('Users: ');
-		$roleLabel = translate('Role: ');
-		$modLabel  = translate('LBL_LIST_FORM_TITLE');
+        $modLabel  = translate('LBL_LIST_FORM_TITLE');
+        $style = 'width: 250px;';
+        $statusOpts = $settings->status->getEditView();
+        $userOpts = $settings->users->getEditView($style);
+        $teamOpts = $settings->teams->getEditView($style);
+        $roleOpts = $settings->roles->getEditView($style);
 
-		$html = <<<HTML
+
+        $html = <<<HTML
 		<div class="moduleTitle">
 			<h2>$modLabel</h2>
 		</div>
 		<div class="clear"></div>
 		<form id="SchedulerAlerts" name="SchedulerAlerts" method="POST" action="index.php?module=sched_SchedulerAlerts&action=SchedulerAlert">
-			<table id="SchedulerAlertsTable" style="width: 75%; height: 100%">
+			<table id="SchedulerAlertsTable">
 				<tr>
-					<td valign="top" scope="col">$statLabel</td>
-					<td height="100%" valign="top">$statusOpts</td>
+					$statusOpts
 				</tr>
 				<tr>
-					<td valign="top" scope="col">$userLabel</td>
-					<td height="100%" valign="top">$userOpts</td>
-				
-					<td valign="top" scope="col">$teamLabel</td>
-					<td height="100%" valign="top">$teamOpts</td>
-				
-					<td valign="top" scope="col">$roleLabel</td>
-					<td height="100%" valign="top">$roleOpts</td>
+					$userOpts
+				    $teamOpts
+				    $roleOpts
 				<tr>
-			</table>
-			<div class="clear"></div>
-			<table>
 				<tr>
-					<td width="100%">
-						<div class="action_buttons">
-							<input id="SAVE_HEADER" class="button primary" type="submit" value="Save" name="button" onclick="var _form = document.getElementById('SchedulerAlerts'); _form.action.value='Save'; if(check_form('SchedulerAlerts'))SUGAR.ajaxUI.submitForm(_form);return false;" accesskey="a" title="Save">
-							<div class="clear"></div>
-						</div>
-					</td>
+				    <td>
+				        <input id="SAVE_HEADER" class="button primary" type="submit" value="Save" name="button" onclick="var _form = document.getElementById('SchedulerAlerts'); _form.action.value='Save'; if(check_form('SchedulerAlerts'))SUGAR.ajaxUI.submitForm(_form);return false;" accesskey="a" title="Save">
+
+				    </td>
 				</tr>
 			</table>
-		</div>
 		</form>
 HTML;
-		
-		$html .= "</table>";
+
+
+        $html .= "</table>";
 		
 		echo $html;
 	}
