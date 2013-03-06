@@ -169,10 +169,12 @@ class Setting
                 {
                     $GLOBALS['log']->fatal("Settings :: The setting '{$this->name}' was restored to its default value of '{$this->default_value}' after having an invalid value of '{$this->value}'.");
                     $this->setDefaultValue();
+                    $this->save();
                 }
             }
             elseif (is_array($this->possible_values) && is_array($this->value))
             {
+                $save = false;
                 foreach ($this->value as $key=>$value)
                 {
                     if (!in_array($value, array_keys($this->possible_values)))
@@ -180,7 +182,13 @@ class Setting
                         unset($this->value[$key]);
 
                         $GLOBALS['log']->fatal("Settings :: The setting '{$this->name}' was had '$value' removed because it is an invalid selection.");
+                        $save = true;
                     }
+                }
+
+                if($save)
+                {
+                    $this->save();
                 }
             }
         }
