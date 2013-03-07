@@ -42,7 +42,7 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 	}
 	
 	public function process($bean, $event, $arguments) {
-		
+
 		$module   = 'sched_SchedulerAlerts';
 		$utils    = new sched_Utils();
 		
@@ -59,10 +59,14 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 		$emails    = array();
 		$userIds   = array();
 		
+		$userLabel = translate("LBL_USERS", $module);
+		$teamLabel = translate("LBL_TEAMS", $module);
+		$roleLabel = translate("LBL_ROLES", $module);
+		
 		// get the users emails and names
-		$utils->getEmailsAndNames($settings->users->value, 'Users', $userNames, $emails);
-		$utils->getEmailsAndNames($settings->teams->value, 'Teams', $teamNames, $emails);
-		$utils->getEmailsAndNames($settings->roles->value, 'Roles', $roleNames, $emails);
+		$utils->getEmailsAndNames($settings->users->value, $userLabel, $userNames, $emails);
+		$utils->getEmailsAndNames($settings->teams->value, $teamLabel, $teamNames, $emails);
+		$utils->getEmailsAndNames($settings->roles->value, $roleLabel, $roleNames, $emails);
 		
 		$userIds[]   = array_keys($userNames);
 		$userIds[]   = array_keys($teamNames);
@@ -116,22 +120,23 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 		$admin->retrieveSettings();
 
 		foreach ($emails as $address => $name) {
+			
 			$mailer           = new SugarPHPMailer();
 			$mailer->AddAddress($address, $name);
 		
-			$descriptionHtml  =<<<MSG
-				{$name},
-				<br /><br />
-				A SugarCRM scheduled job has failed.
-				<br />
-				Scheduler: {$bean->name}
-				<br />
-				Job Started: {$jobDate}
-				<br /><br />
-				Record: <a href="$schedulerLink">$schedulerLink</a>
-MSG;
-					
-			$mailer->Subject  = translate("SugarCRM Scheduler Failure Notice", $module);
+			$message       = translate("LBL_DESCRIPTION_1", $module);
+			$schedulerName = translate("LBL_DESCRIPTION_2", $module);
+			$jobStarted    = translate("LBL_DESCRIPTION_3", $module);
+			$record        = translate("LBL_DESCRIPTION_4", $module);
+
+			$descriptionHtml  = $name.',<br /><br />';
+			$descriptionHtml .= $message.'<br /><br />';
+			$descriptionHtml .= $schedulerName.$bean->name.'<br />';
+			$descriptionHtml .= $jobStarted.$jobDate.'<br /><br />';
+			$descriptionHtml .= $record.'<a href="'.$schedulerLink.'">';
+			$descriptionHtml .= $schedulerLink.'</a>';
+
+			$mailer->Subject  = translate("LBL_EMAIL_SUBJECT", $module);
 			$mailer->Body     = translate($descriptionHtml, $module);
 			$mailer->AltBody  = translate($descriptionHtml, $module);
 			
@@ -144,6 +149,7 @@ MSG;
 			
 			if (!$mailer->Send()) {
 				$GLOBALS['log']->fatal(translate("LBL_EMAIL_ERROR", $module) . $mailer->ErrorInfo);
+				error_log("Email Send Failed: ".$mailer->ErrorInfo);
 			}
 		}
 	}

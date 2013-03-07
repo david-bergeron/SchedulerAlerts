@@ -76,4 +76,11 @@ $mod_strings = array (
   'LBL_USER_NAMES' => 'User Names',
   'LBL_TEAM_NAMES' => 'Team Names',
   'LBL_MUST_BE_ADMIN' => 'Must be Admin',
+  'LBL_USERS' => 'Users',
+  'LBL_ROLES' => 'Roles',
+  'LBL_EMAIL_SUBJECT' => 'SugarCRM Scheduler Failure Notice',
+  'LBL_DESCRIPTION_1' => 'A SugarCRM scheduled job has failed.',
+  'LBL_DESCRIPTION_2' => 'Scheduler: ',
+  'LBL_DESCRIPTION_3' => 'Job Started: ',
+  'LBL_DESCRIPTION_4' => 'Record: ',
 );
