@@ -96,15 +96,20 @@ class sched_Utils
 	public function getEmailsAndNames($array, $module, &$names, &$emails) {
 		global $utils;
 		
+		$moduleBase = 'sched_SchedulerAlerts';
+		$userModule = translate("LBL_USERS", $moduleBase);
+		$teamModule = translate("LBL_TEAMS", $moduleBase);
+		$roleModule = translate("LBL_ROLES", $moduleBase);
+		
 		foreach ($array as $id) {
-			if ($module == 'Users') {
+			if ($module == $userModule) {
 				// gets a User object
 				$bean  = BeanFactory::getBean($module, $id);
-			} elseif ($module == 'Teams') {
+			} elseif ($module == $teamModule) {
 				// gets an array of User objects
 				$bean  = $this->getUsersInTeams($id);
 				$team  = BeanFactory::getBean($module, $id);
-			} elseif ($module == 'Roles') {
+			} elseif ($module == $roleModule) {
 				// gets an array of User objects
 				$bean  = $this->getUsersInRoles($id);
 				$role  = BeanFactory::getBean('ACLRoles', $id);
@@ -114,8 +119,8 @@ class sched_Utils
 				foreach ($bean as $user) {
 					if (strlen($user->email1) > 0) {
 						$emails[$user->email1] = $user->name;
-						if ($module == 'Teams') $names[$user->id] = $team->name;
-						elseif ($module == 'Roles') $names[$user->id] = $role->name;
+						if ($module == $teamModule) $names[$user->id] = $team->name;
+						elseif ($module == $roleModule) $names[$user->id] = $role->name;
 						else $names [$user->id] = $user->name;
 					} else {
 						continue;
