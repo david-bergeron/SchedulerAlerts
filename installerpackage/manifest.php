@@ -31,17 +31,13 @@
 $manifest = array (
   0 => 
   array (
-    'acceptable_sugar_versions' => 
-    array (
-      0 => '',
+    'acceptable_sugar_versions' => array (
+      'regex_matches' => array ('6\\.5\\.(.*?)', '6\\.6\\.(.*?)', '6\\.6\\.(.*?)\\.(.*?)'),
     ),
   ),
   1 => 
   array (
-    'acceptable_sugar_flavors' => 
-    array (
-      0 => 'PRO',
-    ),
+    'acceptable_sugar_flavors' => array ('CE','PRO','CORP','ENT','ULT'),
   ),
   'readme' => '',
   'key' => 'sched',
@@ -99,10 +95,6 @@ $installdefs = array (
   		'from' => '<basepath>/Files/custom/Extension/modules/Schedulers/Ext/ScheduledTasks/force_job_failure.php',
   		'to' => 'custom/Extension/modules/Schedulers/Ext/ScheduledTasks/force_job_failure.php',
   	),
-  	3 => array(
-  	    'from' => '<basepath>/Files/custom/Extension/modules/Schedulers/Ext/Language/en_us.force_job_failure.php',
-  		'to' => 'custom/Extension/modules/Schedulers/Ext/Language/en_us.force_job_failure.php',
-    ),
   ),
   'language' => 
   array (
@@ -472,6 +464,12 @@ $installdefs = array (
       'to_module' => 'application',
       'language' => 'en_us',
     ),
+  	61 =>
+  	array (
+  		'from' => '<basepath>/Files/custom/Extension/modules/Schedulers/Ext/Language/en_us.force_job_failure.php',
+  		'to_module' => 'Schedulers',
+  		'language' => 'en_us',
+  	),
   ),
   'vardefs' => 
   array (

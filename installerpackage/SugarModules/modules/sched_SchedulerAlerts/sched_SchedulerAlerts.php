@@ -67,15 +67,13 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 		$utils->getEmailsAndNames($settings->users->value, $userLabel, $userNames, $emails);
 		$utils->getEmailsAndNames($settings->teams->value, $teamLabel, $teamNames, $emails);
 		$utils->getEmailsAndNames($settings->roles->value, $roleLabel, $roleNames, $emails);
-		
-		$userIds[]   = array_keys($userNames);
-		$userIds[]   = array_keys($teamNames);
-		$userIds[]   = array_keys($roleNames);
-		$userIds     = array_unique($userIds);
 
-		$teamNames   = array_unique($teamNames);
-		$roleNames   = array_unique($roleNames);
-		$emails      = array_unique($emails);
+		$userIds   = array_merge($userNames, $teamNames, $roleNames);
+		$userIds   = array_keys($userIds);
+		
+		$teamNames = array_unique($teamNames);
+		$roleNames = array_unique($roleNames);
+		$emails    = array_unique($emails);
 		
 		if (count($emails) == 0) {
 			$GLOBALS['log']->debug("LBL_NO_EMAILS", $module);
@@ -99,7 +97,9 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 		$this->save();
 		
 		$this->load_relationship('sched_scheduleralerts_users');
-		$this->sched_scheduleralerts_users->add($userIds[0]);
+		foreach ($userIds as $userId) {
+			$this->sched_scheduleralerts_users->add($userId);
+		}
 		
 		$jobDate   = TimeDate::getInstance()->to_display_date_time($bean->execute_time);
 		
