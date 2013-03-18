@@ -42,7 +42,7 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 	}
 	
 	public function process($bean, $event, $arguments) {
-		
+
 		$module   = 'sched_SchedulerAlerts';
 		$utils    = new sched_Utils();
 		
@@ -59,20 +59,29 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 		$emails    = array();
 		$userIds   = array();
 		
+		$userLabel = translate("LBL_USERS", $module);
+		$teamLabel = translate("LBL_TEAMS", $module);
+		$roleLabel = translate("LBL_ROLES", $module);
+		
 		// get the users emails and names
-		$utils->getEmailsAndNames($settings->users->value, 'Users', $userNames, $emails);
-		$utils->getEmailsAndNames($settings->teams->value, 'Teams', $teamNames, $emails);
-		$utils->getEmailsAndNames($settings->roles->value, 'Roles', $roleNames, $emails);
+		$utils->getEmailsAndNames($settings->users->value, $userLabel, $userNames, $emails);
+		$utils->getEmailsAndNames($settings->teams->value, $teamLabel, $teamNames, $emails);
+		$utils->getEmailsAndNames($settings->roles->value, $roleLabel, $roleNames, $emails);
+
+		foreach ($userNames as $id => $name) {
+			array_push($userIds, $id);
+		}
+		foreach ($teamNames as $id => $name) {
+			array_push($userIds, $id);
+		}
+		foreach ($roleNames as $id => $name) {
+			array_push($userIds, $id);
+		}
 		
-		$userIds[]   = array_keys($userNames);
-		$userIds[]   = array_keys($teamNames);
-		$userIds[]   = array_keys($roleNames);
-		$userIds     = array_unique($userIds);
-		
-		$teamNames   = array_unique($teamNames);
-		$roleNames   = array_unique($roleNames);
-		$emails      = array_unique($emails);
-		
+		$teamNames = array_unique($teamNames);
+		$roleNames = array_unique($roleNames);
+		$emails    = array_unique($emails);
+
 		if (count($emails) == 0) {
 			$GLOBALS['log']->debug("LBL_NO_EMAILS", $module);
 			return;
@@ -95,31 +104,60 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 		$this->save();
 		
 		$this->load_relationship('sched_scheduleralerts_users');
-		$this->sched_scheduleralerts_users->add($userIds[0]);
-		
-		$mailer           = new SugarPHPMailer();
-		foreach ($emails as $address => $name) {
-			$mailer->AddAddress($address, $name);
+		foreach ($userIds as $userId) {
+			$this->sched_scheduleralerts_users->add($userId);
 		}
 		
-		$mailer->Subject  = $bean->name.' '.translate("LBL_FAILED_TO_COMPLETE", $module);
-		$mailer->Body     = '<b>'.$bean->name.' '.translate("LBL_NEEDS_ATTENTION", $module).'</b>';
-		$mailer->AltBody  = $bean->name.' '.translate("LBL_NEEDS_ATTENTION", $module);
+		$jobDate   = TimeDate::getInstance()->to_display_date_time($bean->execute_time);
 		
-		$mailer->prepForOutbound();
+		global $sugar_config;
+		$baseLink  = trim($sugar_config['site_url']);
+		$extLink   = "index.php?action=DetailView&module=Schedulers&record={$bean->scheduler_id}";
+		
+		$slash     = '';
+		if ($baseLink[strlen($baseLink)-1] != '/')
+		{
+			$slash = '/';
+		}
+		
+		$schedulerLink = "{$baseLink}{$slash}{$extLink}";
 		
 		// set system default mailer
-		$admin            = new Administration();
+		$admin         = new Administration();
 		$admin->retrieveSettings();
-		$mailer->setMailerForSystem();
+
+		foreach ($emails as $address => $name) {
+			
+			$mailer           = new SugarPHPMailer();
+			$mailer->AddAddress($address, $name);
 		
-		$mailer->From     = $admin->settings['notify_fromaddress'];
-		$mailer->FromName = $admin->settings['notify_fromname'];
-		
-		if (!$mailer->Send()) {
-			$GLOBALS['log']->fatal(translate("LBL_EMAIL_ERROR", $module) . $mailer->ErrorInfo);
+			$message       = translate("LBL_DESCRIPTION_1", $module);
+			$schedulerName = translate("LBL_DESCRIPTION_2", $module);
+			$jobStarted    = translate("LBL_DESCRIPTION_3", $module);
+			$record        = translate("LBL_DESCRIPTION_4", $module);
+
+			$descriptionHtml  = $name.',<br /><br />';
+			$descriptionHtml .= $message.'<br /><br />';
+			$descriptionHtml .= $schedulerName.$bean->name.'<br />';
+			$descriptionHtml .= $jobStarted.$jobDate.'<br /><br />';
+			$descriptionHtml .= $record.'<a href="'.$schedulerLink.'">';
+			$descriptionHtml .= $schedulerLink.'</a>';
+
+			$mailer->Subject  = translate("LBL_EMAIL_SUBJECT", $module);
+			$mailer->Body     = translate($descriptionHtml, $module);
+			$mailer->AltBody  = translate($descriptionHtml, $module);
+			
+			$mailer->prepForOutbound();
+			
+			$mailer->setMailerForSystem();
+			
+			$mailer->From     = $admin->settings['notify_fromaddress'];
+			$mailer->FromName = $admin->settings['notify_fromname'];
+			
+			if (!$mailer->Send()) {
+				$GLOBALS['log']->fatal(translate("LBL_EMAIL_ERROR", $module) . $mailer->ErrorInfo);
+				error_log("Email Send Failed: ".$mailer->ErrorInfo);
+			}
 		}
 	}
-	
 }
-?>

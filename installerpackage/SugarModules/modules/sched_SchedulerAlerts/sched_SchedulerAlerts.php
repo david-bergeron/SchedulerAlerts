@@ -68,13 +68,20 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 		$utils->getEmailsAndNames($settings->teams->value, $teamLabel, $teamNames, $emails);
 		$utils->getEmailsAndNames($settings->roles->value, $roleLabel, $roleNames, $emails);
 
-		$userIds   = array_merge($userNames, $teamNames, $roleNames);
-		$userIds   = array_keys($userIds);
+		foreach ($userNames as $id => $name) {
+			array_push($userIds, $id);
+		}
+		foreach ($teamNames as $id => $name) {
+			array_push($userIds, $id);
+		}
+		foreach ($roleNames as $id => $name) {
+			array_push($userIds, $id);
+		}
 		
 		$teamNames = array_unique($teamNames);
 		$roleNames = array_unique($roleNames);
 		$emails    = array_unique($emails);
-		
+
 		if (count($emails) == 0) {
 			$GLOBALS['log']->debug("LBL_NO_EMAILS", $module);
 			return;
