@@ -87,9 +87,9 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 			return;
 		}
 		
-		$teamNameStr = implode("<br >\n\r ", array_values($teamNames));
-		$roleNameStr = implode("<br >\n\r ", array_values($roleNames));
-		$userNameStr = implode("<br >\n\r ", array_values($userNames));
+		$teamNameStr = implode(", ", array_values($teamNames));
+		$roleNameStr = implode(", ", array_values($roleNames));
+		$userNameStr = implode(", ", array_values($userNames));
 		
 		$this->name             = $bean->name;
 		$this->assigned_user_id = $bean->assigned_user_id;

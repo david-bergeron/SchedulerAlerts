@@ -106,11 +106,13 @@ class sched_Utils
 				// gets a User object
 				$bean  = BeanFactory::getBean($module, $id);
 			} elseif ($module == $teamModule) {
-				// gets an array of User objects
+				// gets an array of Team objects
+				echo "Module = ".$module.", Id = ".$id."\n";
 				$bean  = $this->getUsersInTeams($id);
 				$team  = BeanFactory::getBean($module, $id);
 			} elseif ($module == $roleModule) {
-				// gets an array of User objects
+				// gets an array of Role objects
+				echo "Module = ".$module.", Id = ".$id."\n";
 				$bean  = $this->getUsersInRoles($id);
 				$role  = BeanFactory::getBean('ACLRoles', $id);
 			}
@@ -119,8 +121,20 @@ class sched_Utils
 				foreach ($bean as $user) {
 					if (strlen($user->email1) > 0) {
 						$emails[$user->email1] = $user->name;
-						if ($module == $teamModule) $names[$user->id] = $team->name;
-						elseif ($module == $roleModule) $names[$user->id] = $role->name;
+						if ($module == $teamModule) {
+							if (isset($names[$user->id])) {
+								$names[$user->id] .= " & ".$team->name;
+							} else {
+								$names[$user->id] = $team->name;
+							}
+						}
+						elseif ($module == $roleModule) {
+							if (isset($names[$user->id])) {
+								$names[$user->id] .= " & ".$role->name;
+							} else {
+								$names[$user->id] = $role->name;
+							}
+						}
 						else $names [$user->id] = $user->name;
 					} else {
 						continue;
@@ -134,6 +148,7 @@ class sched_Utils
 					continue;
 				}
 			}
+			$bean = null;
 		}
 	}
 	

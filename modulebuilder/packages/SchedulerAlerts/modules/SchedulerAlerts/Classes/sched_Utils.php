@@ -96,16 +96,23 @@ class sched_Utils
 	public function getEmailsAndNames($array, $module, &$names, &$emails) {
 		global $utils;
 		
+		$moduleBase = 'sched_SchedulerAlerts';
+		$userModule = translate("LBL_USERS", $moduleBase);
+		$teamModule = translate("LBL_TEAMS", $moduleBase);
+		$roleModule = translate("LBL_ROLES", $moduleBase);
+		
 		foreach ($array as $id) {
-			if ($module == 'Users') {
+			if ($module == $userModule) {
 				// gets a User object
 				$bean  = BeanFactory::getBean($module, $id);
-			} elseif ($module == 'Teams') {
-				// gets an array of User objects
+			} elseif ($module == $teamModule) {
+				// gets an array of Team objects
+				echo "Module = ".$module.", Id = ".$id."\n";
 				$bean  = $this->getUsersInTeams($id);
 				$team  = BeanFactory::getBean($module, $id);
-			} elseif ($module == 'Roles') {
-				// gets an array of User objects
+			} elseif ($module == $roleModule) {
+				// gets an array of Role objects
+				echo "Module = ".$module.", Id = ".$id."\n";
 				$bean  = $this->getUsersInRoles($id);
 				$role  = BeanFactory::getBean('ACLRoles', $id);
 			}
@@ -114,9 +121,21 @@ class sched_Utils
 				foreach ($bean as $user) {
 					if (strlen($user->email1) > 0) {
 						$emails[$user->email1] = $user->name;
-						if ($module == 'Teams') $names[] = $team->name;
-						elseif ($module == 'Roles') $names[] = $role->name;
-						else $names [] = $user->name;
+						if ($module == $teamModule) {
+							if (isset($names[$user->id])) {
+								$names[$user->id] .= " & ".$team->name;
+							} else {
+								$names[$user->id] = $team->name;
+							}
+						}
+						elseif ($module == $roleModule) {
+							if (isset($names[$user->id])) {
+								$names[$user->id] .= " & ".$role->name;
+							} else {
+								$names[$user->id] = $role->name;
+							}
+						}
+						else $names [$user->id] = $user->name;
 					} else {
 						continue;
 					}
@@ -124,11 +143,12 @@ class sched_Utils
 			} else {
 				if (strlen($bean->email1) > 0) {
 					$emails[$bean->email1] = $bean->name;
-					$names [] = $bean->name;
+					$names [$bean->id] = $bean->name;
 				} else {
 					continue;
 				}
 			}
+			$bean = null;
 		}
 	}
 	
