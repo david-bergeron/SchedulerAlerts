@@ -59,14 +59,10 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 		$emails    = array();
 		$userIds   = array();
 		
-		$userLabel = translate("LBL_USERS", $module);
-		$teamLabel = translate("LBL_TEAMS", $module);
-		$roleLabel = translate("LBL_ROLES", $module);
-		
 		// get the users emails and names
-		$utils->getEmailsAndNames($settings->users->value, $userLabel, $userNames, $emails);
-		$utils->getEmailsAndNames($settings->teams->value, $teamLabel, $teamNames, $emails);
-		$utils->getEmailsAndNames($settings->roles->value, $roleLabel, $roleNames, $emails);
+		$utils->getEmailsAndNames($settings->users->value, 'Users', $userNames, $emails);
+		$utils->getEmailsAndNames($settings->teams->value, 'Teams', $teamNames, $emails);
+		$utils->getEmailsAndNames($settings->roles->value, 'Roles', $roleNames, $emails);
 
 		foreach ($userNames as $id => $name) {
 			array_push($userIds, $id);
@@ -78,17 +74,15 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 			array_push($userIds, $id);
 		}
 		
-		$teamNames = array_unique($teamNames);
-		$roleNames = array_unique($roleNames);
+		$teamNames = $utils->getTeamNames($settings->teams->value);
+		$roleNames = $utils->getRoleNames($settings->roles->value);
 		$emails    = array_unique($emails);
 
 		if (count($emails) == 0) {
 			$GLOBALS['log']->debug("LBL_NO_EMAILS", $module);
 			return;
 		}
-		
-		$teamNameStr = implode(", ", array_values($teamNames));
-		$roleNameStr = implode(", ", array_values($roleNames));
+
 		$userNameStr = implode(", ", array_values($userNames));
 		
 		$this->name             = $bean->name;
@@ -97,8 +91,8 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 		$this->scheduler_status = $bean->status;
 		$this->scheduler_resolution = translate("LBL_FAILURE", $module);
 		$this->team_set_id      = $bean->team_set_id;
-		$this->team_names       = $teamNameStr;
-		$this->role_names       = $roleNameStr;
+		$this->team_names       = $teamNames;
+		$this->role_names       = $roleNames;
 		$this->user_names       = $userNameStr;
 		$this->schedulers_id    = $bean->scheduler_id;
 		$this->save();

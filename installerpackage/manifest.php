@@ -470,6 +470,12 @@ $installdefs = array (
   		'to_module' => 'Schedulers',
   		'language' => 'en_us',
   	),
+  	62 =>
+  	array (
+  		'from' => '<basepath>/Files/custom/Extension/modules/sched_SchedulerAlerts/language/en_us.lang.php',
+  		'to_module' => 'sched_SchedulerAlerts',
+  		'language' => 'en_us',
+  	),
   ),
   'vardefs' => 
   array (
