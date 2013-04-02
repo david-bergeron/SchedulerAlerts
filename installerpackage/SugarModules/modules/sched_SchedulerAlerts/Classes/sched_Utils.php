@@ -41,10 +41,10 @@ class sched_Utils
 		$usersObj  = BeanFactory::newBean('Users');
 		$orderBy   = "last_name";
 		$where     = "users.status = 'Active'";
-		$users     = $usersObj->get_list($orderBy, $where);
-	
+		$users     = $usersObj->get_full_list($orderBy, $where);
+
 		$return = array();
-		foreach ($users['list'] as $user) {
+		foreach ($users as $user) {
 			$return[$user->id] = $user->last_name;
 				
 			if ($user->first_name != '') {
@@ -58,10 +58,10 @@ class sched_Utils
 		// get the Teams data
 		$teamsObj  = BeanFactory::newBean('Teams');
 		$orderBy   = "name";
-		$teams     = $teamsObj->get_list($orderBy);
+		$teams     = $teamsObj->get_full_list($orderBy);
 	
 		$return = array();
-		foreach ($teams['list'] as $team) {
+		foreach ($teams as $team) {
 			$return[$team->id] = $team->name;
 		}
 		return $return;
@@ -84,10 +84,10 @@ class sched_Utils
 	public function getRoles() {
 		// get the Roles data
 		$rolesObj  = BeanFactory::newBean('ACLRoles');
-		$roles     = $rolesObj->get_list();
+		$roles     = $rolesObj->get_full_list();
 	
 		$return = array();
-		foreach ($roles['list'] as $role) {
+		foreach ($roles as $role) {
 			$return[$role->id] = $role->name;
 		}
 		return $return;
