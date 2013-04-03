@@ -48,7 +48,7 @@ $manifest = array (
   'name' => 'SchedulerAlerts',
   'published_date' => '2013-01-28 21:40:27',
   'type' => 'module',
-  'version' => '1.0',
+  'version' => '1.1',
   'remove_tables' => 'prompt',
 );
 
