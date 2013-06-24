@@ -36,8 +36,8 @@ $manifest = array (
     ),
   ),
   1 => 
-  array ('
-    'acceptable_sugar_flavors' => array ('CE', 'PRO','CORP','ENT','ULT'),
+  array (
+    'acceptable_sugar_flavors' => array ('PRO','CORP','ENT','ULT'),
   ),
   'readme' => '',
   'key' => 'sched',
