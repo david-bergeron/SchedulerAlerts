@@ -36,7 +36,7 @@ $manifest = array (
     ),
   ),
   1 => 
-  array ('
+  array (
     'acceptable_sugar_flavors' => array ('PRO','CORP','ENT','ULT'),
   ),
   'readme' => '',
