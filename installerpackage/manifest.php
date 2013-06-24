@@ -36,7 +36,7 @@ $manifest = array (
     ),
   ),
   1 => 
-  array ('
+  array (
     'acceptable_sugar_flavors' => array ('PRO','CORP','ENT','ULT'),
   ),
   'readme' => '',
@@ -84,17 +84,17 @@ $installdefs = array (
   'copy' => 
   array (
     0 => array (
-      	'from' => '<basepath>/SugarModules/modules/sched_SchedulerAlerts',
-      	'to' => 'modules/sched_SchedulerAlerts',
+        'from' => '<basepath>/SugarModules/modules/sched_SchedulerAlerts',
+        'to' => 'modules/sched_SchedulerAlerts',
     ),
     1 => array(
-      	'from' => '<basepath>/Files/custom/Extension/modules/Administration/Ext/Administration/sched_options.php',
-      	'to' => 'custom/Extension/modules/Administration/Ext/Administration/sched_options.php',
+        'from' => '<basepath>/Files/custom/Extension/modules/Administration/Ext/Administration/sched_options.php',
+        'to' => 'custom/Extension/modules/Administration/Ext/Administration/sched_options.php',
     ),
-  	2 => array(
-  		'from' => '<basepath>/Files/custom/Extension/modules/Schedulers/Ext/ScheduledTasks/force_job_failure.php',
-  		'to' => 'custom/Extension/modules/Schedulers/Ext/ScheduledTasks/force_job_failure.php',
-  	),
+        2 => array(
+                'from' => '<basepath>/Files/custom/Extension/modules/Schedulers/Ext/ScheduledTasks/force_job_failure.php',
+                'to' => 'custom/Extension/modules/Schedulers/Ext/ScheduledTasks/force_job_failure.php',
+        ),
   ),
   'language' => 
   array (
@@ -464,18 +464,18 @@ $installdefs = array (
       'to_module' => 'application',
       'language' => 'en_us',
     ),
-  	61 =>
-  	array (
-  		'from' => '<basepath>/Files/custom/Extension/modules/Schedulers/Ext/Language/en_us.force_job_failure.php',
-  		'to_module' => 'Schedulers',
-  		'language' => 'en_us',
-  	),
-  	62 =>
-  	array (
-  		'from' => '<basepath>/Files/custom/Extension/modules/sched_SchedulerAlerts/language/en_us.lang.php',
-  		'to_module' => 'sched_SchedulerAlerts',
-  		'language' => 'en_us',
-  	),
+        61 =>
+        array (
+                'from' => '<basepath>/Files/custom/Extension/modules/Schedulers/Ext/Language/en_us.force_job_failure.php',
+                'to_module' => 'Schedulers',
+                'language' => 'en_us',
+        ),
+        62 =>
+        array (
+                'from' => '<basepath>/Files/custom/Extension/modules/sched_SchedulerAlerts/language/en_us.lang.php',
+                'to_module' => 'sched_SchedulerAlerts',
+                'language' => 'en_us',
+        ),
   ),
   'vardefs' => 
   array (
