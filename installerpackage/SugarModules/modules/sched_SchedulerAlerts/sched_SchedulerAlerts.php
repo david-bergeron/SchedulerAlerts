@@ -49,8 +49,13 @@ class sched_SchedulerAlerts extends sched_SchedulerAlerts_sugar {
 		$settings = new SchedulerAlertsSettings();
 		
 		if ($settings->status->value == "Inactive") {
-			$GLOBALS['log']->debug("LBL_MODULE_DISABLED", $module);
+			$GLOBALS['log']->debug("The SchedulerAlerts module is disabled.", $module);
 			return;
+		}
+		
+		if ($settings->job->value != $event) {
+		    $GLOBALS['log']->fatal("The SchedulerAlerts Job Type Mismatch", $module, $event);
+		    return;
 		}
 		
 		$userNames = array();

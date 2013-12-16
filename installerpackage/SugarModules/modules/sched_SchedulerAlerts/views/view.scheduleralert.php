@@ -53,6 +53,7 @@ class ViewSchedulerAlert extends SugarView {
 		$utils    = new sched_Utils();
 		
 		$statuses = array('Active'=>'Active', 'Inactive'=>'Inactive');
+		$jobs     = array('Job Failure'=>'job_failure', 'Job Failure Retry'=>'job_failure_retry');
 		$users    = $utils->getUsers();
 		$teams    = $utils->getTeams();
 		$roles    = $utils->getRoles();
@@ -86,6 +87,7 @@ class ViewSchedulerAlert extends SugarView {
         $modLabel  = translate('LBL_LIST_FORM_TITLE');
         $style = 'width: 250px;';
         $statusOpts = $settings->status->getEditView();
+        $jobOpts  = $settings->job->getEditView();
         $userOpts = $settings->users->getEditView($style);
         $teamOpts = $settings->teams->getEditView($style);
         $roleOpts = $settings->roles->getEditView($style);
@@ -100,6 +102,7 @@ class ViewSchedulerAlert extends SugarView {
 			<table id="SchedulerAlertsTable">
 				<tr>
 					$statusOpts
+					$jobOpts
 				</tr>
 				<tr>
 					$userOpts

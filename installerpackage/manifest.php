@@ -37,7 +37,7 @@ $manifest = array (
   ),
   1 => 
   array (
-    'acceptable_sugar_flavors' => array ('PRO','CORP','ENT','ULT'),
+    'acceptable_sugar_flavors' => array('PRO','CORP','ENT','ULT'),
   ),
   'readme' => '',
   'key' => 'sched',
@@ -46,9 +46,9 @@ $manifest = array (
   'icon' => '',
   'is_uninstallable' => true,
   'name' => 'SchedulerAlerts',
-  'published_date' => '2013-01-28 21:40:27',
+  'published_date' => '2013-12-16 08:48:00',
   'type' => 'module',
-  'version' => '1.2',
+  'version' => '1.3',
   'remove_tables' => 'prompt',
 );
 
@@ -512,6 +512,15 @@ $installdefs = array (
   array(
     'module' => 'SchedulersJobs',
     'hook' => 'job_failure',
+    'order' => 98,
+    'description' => 'job failure',
+    'file' => 'modules/sched_SchedulerAlerts/Hooks/SchedulersJobs_Failure.php',
+    'class' => 'SchedulersJobs_Failure',
+    'function' => 'Failure',
+   ),
+  array(
+    'module' => 'SchedulersJobs',
+    'hook' => 'job_failure_retry',
     'order' => 99,
     'description' => 'job failure',
     'file' => 'modules/sched_SchedulerAlerts/Hooks/SchedulersJobs_Failure.php',

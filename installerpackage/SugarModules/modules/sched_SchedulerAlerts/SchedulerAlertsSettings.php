@@ -50,11 +50,13 @@ class SchedulerAlertsSettings extends SettingHelper
 		$utils    = new sched_Utils();
 		
 		$statuses = array('Active'=>'Active', 'Inactive'=>'Inactive');
+		$jobs     = array('Job Failure'=>'job_failure', 'Job Failure Retry'=>'job_failure_retry');
 		$users    = $utils->getUsers();
 		$teams    = $utils->getTeams();
 		$roles    = $utils->getRoles();
 
 		$this->status = new SettingString($autoCreate, 'LBL_SCHEDULER_STATUS', $category, $section, 'status', 'Inactive', $statuses);
+		$this->job    = new SettingString($autoCreate, 'Job Types', $category, $section, 'job', 'job_failure', $jobs);
 		$this->users  = new SettingArray($autoCreate, 'Users', $category, $section, 'users', array(), $users);
 		$this->teams  = new SettingArray($autoCreate, 'Teams', $category, $section, 'teams', array(), $teams);
 		$this->roles  = new SettingArray($autoCreate, 'Roles', $category, $section, 'roles', array(), $roles);
